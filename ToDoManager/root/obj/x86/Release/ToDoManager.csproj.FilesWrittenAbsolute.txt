@@ -1,0 +1,6 @@
+/mnt/data/home/lightuniverse/workspace/CSharpTutorials/GUI/ToDoManager/root/obj/x86/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/mnt/data/home/lightuniverse/workspace/CSharpTutorials/GUI/ToDoManager/root/obj/x86/Release/ToDoManager.gtk-gui.gui.stetic
+/mnt/data/home/lightuniverse/workspace/CSharpTutorials/GUI/ToDoManager/root/bin/Release/ToDoManager.exe.mdb
+/mnt/data/home/lightuniverse/workspace/CSharpTutorials/GUI/ToDoManager/root/bin/Release/ToDoManager.exe
+/mnt/data/home/lightuniverse/workspace/CSharpTutorials/GUI/ToDoManager/root/obj/x86/Release/ToDoManager.exe
+/mnt/data/home/lightuniverse/workspace/CSharpTutorials/GUI/ToDoManager/root/obj/x86/Release/ToDoManager.exe.mdb
