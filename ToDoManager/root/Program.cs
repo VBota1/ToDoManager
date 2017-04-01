@@ -5,11 +5,14 @@ using ToDoManager.Database;
 using System.Collections.Generic;
 using System.Linq;
 
+//TODO: fix problem with rethrow message
+
 namespace ToDoManager
 {
 	class MainClass
 	{
-		static MainWindow win;
+		static internal MainWindow win;
+		static TaskList tasks;
 
 		internal static void Main (string[] args)
 		{
@@ -19,29 +22,59 @@ namespace ToDoManager
 
 			try
 			{
-				TaskList tasks = new TaskList();
-				/*
-				Random rndm = new Random();
-				DateTime duedate = new DateTime(DateTime.Today.Year,(DateTime.Today.Month+1),rndm.Next(1,28));
-				tasks.addTask ("test1",duedate,rndm.Next (0,30),generateNextBool (),"automaticaly added text");
-				DateTime duedate2 = new DateTime(DateTime.Today.Year,(DateTime.Today.Month+1),rndm.Next(1,28));
-				tasks.addTask ("test me now",duedate2,rndm.Next (0,30),generateNextBool (),"automaticaly added text");
-				tasks.removeTask (tasks.readTaskList ().Single (x => x.uid == 2));
-*/
+				tasks = new TaskList();
 				win.showTaskList (tasks);
 			}
 			catch ( Exception ex )
 			{
-				win.setMessageText (ex.Message);
+				printExceptionInfo (ex);
 			}
 
 			win.Show ();
 			Application.Run ();
 		}
 
+		internal static void printExceptionInfo (Exception pex)
+		{
+			String innexmessage = String.Empty;
+			if ( null != pex.InnerException )
+				innexmessage = " --> " + pex.InnerException.Message;
+				
+			String exmessage = pex.Message + innexmessage;
+			win.setMessageText (exmessage);
+		}
+
+		internal static void addTask ( String pTitle, DateTime? pdeadline = null, int pduration = 0, bool pImportant = false, String pDescription = "no description" )
+		{
+			int newuid=TaskTextView.EMPTYVEIWUID;
+
+			if (null == tasks) {
+				win.setMessageText ("Task list is not initialized! Check Data Base.");
+				return;
+			}
+
+			try
+			{
+				newuid = tasks.addTask (pTitle,pdeadline,pduration,pImportant,pDescription);
+			}
+			catch (Exception ex)
+			{
+				printExceptionInfo (ex);
+				return;
+			}
+
+			win.showTask (tasks.readTaskList ().Single (x => x.uid ==newuid));
+		}
+
 		internal static void deleteTask (int puid)
 		{
 			Task tobedeleted;
+
+			if ( TaskTextView.EMPTYVEIWUID == puid )
+			{
+				win.setMessageText("No task to be deleted! Try adding some tasks first.");
+				return;
+			}
 
 			try 
 			{
@@ -59,7 +92,7 @@ namespace ToDoManager
 			}
 			catch ( Exception ex )
 			{
-				win.setMessageText (ex.Message);
+				printExceptionInfo (ex);
 			}
 
 			win.removeTextWidget (tobedeleted);
@@ -80,12 +113,12 @@ namespace ToDoManager
 		static private List<Task> taskList = new List<Task>();
 		static private DataBaseInterface dbhandle;
 
-		internal bool addTask ( String pTitle, DateTime? pdeadline = null, int pduration = 0, bool pImportant = false, String pDescription = "no description" )
+		internal int addTask ( String pTitle, DateTime? pdeadline = null, int pduration = 0, bool pImportant = false, String pDescription = "no description" )
 		{
 			int uid;
 			try{
 				
-				uid = getUniqueUID();;
+				uid = getUniqueUID();
 			}
 			catch (TaskListIsFullException)
 			{
@@ -105,7 +138,7 @@ namespace ToDoManager
 
 			taskList.Add (tmptask);
 
-			return true;
+			return uid;
 		}
 
 		static internal bool removeTask ( Task ptask )
@@ -156,7 +189,7 @@ namespace ToDoManager
 	internal class TaskListIsFullException : Exception
 	{
 		public TaskListIsFullException() 
-			: base($"Task List is full! Please delete some taks before creating new ones.")
+			: base("Task List is full! Please delete some taks before creating new ones.")
 		{}
 	}
 
@@ -164,6 +197,13 @@ namespace ToDoManager
 	{
 		public TaskNotFoundException(int puid)
 			: base($"Task with UID: {puid} was not found!")
+		{}
+	}
+
+	internal class CouldNotCreateTaskListException : Exception
+	{
+		public CouldNotCreateTaskListException(String arg)
+			: base ($"Task List Could not be created: " + arg)
 		{}
 	}
 

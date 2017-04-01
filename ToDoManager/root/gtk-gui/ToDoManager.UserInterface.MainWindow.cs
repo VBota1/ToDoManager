@@ -42,8 +42,6 @@ namespace ToDoManager.UserInterface
 		
 		private global::Gtk.Label NotUrgentLabel;
 		
-		private global::Gtk.SpinButton spinbutton1;
-		
 		private global::Gtk.Label UrgentLabel;
 
 		protected virtual void Build ()
@@ -218,34 +216,23 @@ namespace ToDoManager.UserInterface
 			w23.XOptions = ((global::Gtk.AttachOptions)(4));
 			w23.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child MainTable.Gtk.Table+TableChild
-			this.spinbutton1 = new global::Gtk.SpinButton (0, 100, 1);
-			this.spinbutton1.CanFocus = true;
-			this.spinbutton1.Name = "spinbutton1";
-			this.spinbutton1.Adjustment.PageIncrement = 10;
-			this.spinbutton1.ClimbRate = 1;
-			this.spinbutton1.Numeric = true;
-			this.MainTable.Add (this.spinbutton1);
-			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.MainTable [this.spinbutton1]));
-			w24.XOptions = ((global::Gtk.AttachOptions)(4));
-			w24.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child MainTable.Gtk.Table+TableChild
 			this.UrgentLabel = new global::Gtk.Label ();
 			this.UrgentLabel.Name = "UrgentLabel";
 			this.UrgentLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Urgent");
 			this.UrgentLabel.Wrap = true;
 			this.UrgentLabel.Justify = ((global::Gtk.Justification)(2));
 			this.MainTable.Add (this.UrgentLabel);
-			global::Gtk.Table.TableChild w25 = ((global::Gtk.Table.TableChild)(this.MainTable [this.UrgentLabel]));
-			w25.TopAttach = ((uint)(1));
-			w25.BottomAttach = ((uint)(2));
-			w25.XOptions = ((global::Gtk.AttachOptions)(4));
-			w25.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w24 = ((global::Gtk.Table.TableChild)(this.MainTable [this.UrgentLabel]));
+			w24.TopAttach = ((uint)(1));
+			w24.BottomAttach = ((uint)(2));
+			w24.XOptions = ((global::Gtk.AttachOptions)(4));
+			w24.YOptions = ((global::Gtk.AttachOptions)(4));
 			w4.Add (this.MainTable);
 			this.GtkScrolledTableWindow.Add (w4);
 			this.FrameTable.Add (this.GtkScrolledTableWindow);
-			global::Gtk.Table.TableChild w28 = ((global::Gtk.Table.TableChild)(this.FrameTable [this.GtkScrolledTableWindow]));
-			w28.TopAttach = ((uint)(1));
-			w28.BottomAttach = ((uint)(2));
+			global::Gtk.Table.TableChild w27 = ((global::Gtk.Table.TableChild)(this.FrameTable [this.GtkScrolledTableWindow]));
+			w27.TopAttach = ((uint)(1));
+			w27.BottomAttach = ((uint)(2));
 			this.MainFrame.Add (this.FrameTable);
 			this.Add (this.MainFrame);
 			if ((this.Child != null)) {

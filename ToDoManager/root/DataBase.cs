@@ -27,6 +27,25 @@ namespace ToDoManager.Database
 
 		internal DataBaseInterface ()
 		{
+			DBConnection dbcon = new DBConnection (dbname);
+			dbcon.dbcmd.CommandText = "select * from " + tablename;
+
+			try 
+			{
+				dbcon.dbcmd.ExecuteNonQuery ();
+			}
+			catch
+			{
+				dbcon.dbcmd.CommandText = "CREATE TABLE " + tablename + " (" +
+				uidcolumnname + " int," +
+				titlecolumnname + " VARCHAR(50)," +
+				deadlinecolumnname + " DATE," +
+				descriptioncolumnname + " VARCHAR(200)," +
+				imporntancycolumnname + " int," +
+				durationcolumnname + " int)";
+
+				dbcon.dbcmd.ExecuteNonQuery ();
+			}
 		}
 
 		internal bool writeTaskToDB (Task ptask)
@@ -43,8 +62,15 @@ namespace ToDoManager.Database
 			}
 
 			dbcon.dbcmd.CommandText = convertTaskToSQLInsertCommand ( ptask );
-			if (0 == dbcon.dbcmd.ExecuteNonQuery ())
+
+			try
+			{
+				dbcon.dbcmd.ExecuteNonQuery ();
+			}
+			catch 
+			{
 				throw new UnableToExecuteSQLCommandException (dbcon.dbcmd.CommandText);
+			}
 
 			return true;
 		}
@@ -88,7 +114,7 @@ namespace ToDoManager.Database
 			}
 			catch
 			{
-				throw;
+				throw new UnableToExecuteSQLCommandException(pcmd);
 			}
 		}
 
@@ -96,7 +122,7 @@ namespace ToDoManager.Database
 		{
 			List<Task> retval = new List<Task> ();
 
-			String tmpcmd = "select * from " + tablename;
+			String tmpcmd= "select * from " + tablename;
 
 			IDataReader dbdata;
 
@@ -162,7 +188,7 @@ namespace ToDoManager.Database
 			try {
 				opendb ();
 			} 
-			catch	
+			catch
 			{
 				throw;
 			}
